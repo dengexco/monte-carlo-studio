@@ -8,3 +8,5 @@ odev_ciktilari/
 *.log
 
 bin/
+
+node_modules/

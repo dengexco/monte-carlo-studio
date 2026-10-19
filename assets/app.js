@@ -20,13 +20,13 @@ function plot(name, rows, runs) {
     if (!rows.length) return;
     const x = rows.map(r=>r.n);
     const traces = [];
-    for (let i=0;i<runs;i++) traces.push({x,y:rows.map(r=>r.runs[i]),type:'scatter',mode:'markers',name:'Individual runs',legendgroup:'runs',showlegend:i===0,marker:{color:'#acb8fa',size:7},hovertemplate:'n=%{x}<br>Estimate=%{y:.6f}<extra>Run '+(i+1)+'</extra>'});
-    traces.push({x,y:rows.map(r=>r.mean),mode:'lines+markers',name:'Mean',line:{color:'#4058f5',width:2.5},marker:{size:6}});
+    for (let i=0;i<runs;i++) traces.push({x,y:rows.map(r=>r.runs[i]),type:'scatter',mode:'markers',name:'Individual runs',legendgroup:'runs',showlegend:i===0,marker:{color:'#c3bdf5',size:7},hovertemplate:'n=%{x}<br>Estimate=%{y:.6f}<extra>Run '+(i+1)+'</extra>'});
+    traces.push({x,y:rows.map(r=>r.mean),mode:'lines+markers',name:'Mean',line:{color:'#6457e7',width:2.5},marker:{size:6}});
     traces.push({x,y:rows.map(r=>r.reference),mode:'lines',name:'Theoretical',line:{color:'#d47b45',dash:'dash',width:1.5}});
-    traces.push({x,y:rows.map(r=>r.error>0?r.error:null),xaxis:'x2',yaxis:'y2',mode:'lines+markers',name:'Absolute error',line:{color:'#4058f5',width:2}});
+    traces.push({x,y:rows.map(r=>r.error>0?r.error:null),xaxis:'x2',yaxis:'y2',mode:'lines+markers',name:'Absolute error',line:{color:'#6457e7',width:2}});
     traces.push({x,y:rows.map(r=>r.sd>0?r.sd:null),xaxis:'x2',yaxis:'y2',mode:'lines+markers',name:'Sample SD',line:{color:'#179b91',dash:'dash',width:2},marker:{symbol:'square',size:6}});
     const axis={type:'log',tickmode:'array',tickvals:x,ticktext:x.map(n=>n.toLocaleString('en-US')),gridcolor:'#eff1f6',zeroline:false,title:{text:'Sample size n',font:{size:10}}};
-    const annotations=[{text:name==='pi'?'Pi estimates':'Euler’s number estimates',x:0,y:1.12,xref:'paper',yref:'paper',xanchor:'left',showarrow:false,font:{size:14,color:'#191c29'}},{text:'Accuracy & stability',x:.59,y:1.12,xref:'paper',yref:'paper',xanchor:'left',showarrow:false,font:{size:14,color:'#191c29'}}];
+    const annotations=[{text:name==='pi'?'Pi estimates':'Euler’s number estimates',x:0,y:1.12,xref:'paper',yref:'paper',xanchor:'left',showarrow:false,font:{size:14,color:'#28273d'}},{text:'Accuracy & stability',x:.59,y:1.12,xref:'paper',yref:'paper',xanchor:'left',showarrow:false,font:{size:14,color:'#28273d'}}];
     if(rows.some(r=>r.error===0||r.sd===0)) annotations.push({text:'Zero values are omitted on the logarithmic axis.',x:1,y:-.26,xref:'paper',yref:'paper',showarrow:false,xanchor:'right',font:{size:9}});
     Plotly.react(element,traces,{margin:{l:52,r:15,t:80,b:55},paper_bgcolor:'#fff',plot_bgcolor:'#fff',font:{family:'Arial, sans-serif',size:10,color:'#687082'},xaxis:{...axis,domain:[0,.43]},xaxis2:{...axis,domain:[.59,1],anchor:'y2'},yaxis:{title:{text:'Estimate',font:{size:10}},gridcolor:'#eff1f6',zeroline:false},yaxis2:{anchor:'x2',type:'log',title:{text:'Magnitude (log)',font:{size:10}},gridcolor:'#eff1f6',zeroline:false},legend:{orientation:'h',y:1.32,x:0,font:{size:9}},annotations,uirevision:name},config);
 }

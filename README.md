@@ -1,6 +1,6 @@
 # Monte Carlo Studio
 
-Go-powered local Monte Carlo application for estimating π and Euler’s number e. Includes DengeX styling, configurable experiments, interactive charts, run logs, and CSV/JSON exports. UI assets are embedded in the executable; the Go runtime has no third-party package dependencies.
+Go-powered local Monte Carlo application for estimating π and Euler’s number e. Includes UI TripleD components and custom dashboard styling, configurable experiments, interactive charts, run logs, and CSV/JSON exports. UI assets are embedded in the executable; the Go runtime has no third-party package dependencies.
 
 ## Build and run
 
@@ -23,3 +23,7 @@ go vet ./...
 See [read.md](read.md) for detailed Turkish methodology, code explanations, and migration notes. Go uses PCG streams, so results differ from the previous Python implementation even with the same seed. Existing reports are not automatically regenerated.
 
 Third-party styling and Plotly sources: [SOURCES.md](assets/vendor/SOURCES.md). Prepared with AI assistance.
+
+## UI build
+
+React components adapted from UI TripleD (MIT): Native Tabs and Native Magnetic. To rebuild them: `npm ci && npm run build`, then rebuild the Go executable. The prebuilt bundle is included; Node.js is not required to run the application.

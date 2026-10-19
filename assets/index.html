@@ -3,19 +3,20 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="app-token" content="__TOKEN__"><title>Monte Carlo Studio</title>
-<link rel="stylesheet" href="/assets/vendor/dengex-app.css">
-<link rel="stylesheet" href="/assets/vendor/dengex-marketing.css">
+
+
 <link rel="stylesheet" href="/assets/app.css">
 <script defer src="/assets/vendor/plotly.min.js"></script><script defer src="/assets/app.js"></script>
+<script defer src="/assets/components.js"></script>
 </head>
 <body>
-<header class="topbar"><a class="wordmark" href="/">Monte Carlo <span>Studio</span></a><span class="developer-credit">developed by Dogukan Ercan</span><div class="header-meta"><span class="dot"></span> GO SIMULATION ENGINE <a href="https://dengex.com" target="_blank" rel="noreferrer">DengeX design ↗</a></div></header>
+<header class="topbar"><a class="wordmark" href="/"><span class="brand-icon">m<span>↗</span></span> Monte Carlo <span class="studio-label">STUDIO</span></a><div class="header-meta"><span class="dot"></span> LOCAL WORKSPACE <span class="version">GO ENGINE</span></div><div id="creator"></div></header>
 <main>
-<section class="intro"><div class="eyebrow">STOCHASTIC PROCESSES / EXPERIMENT WORKSPACE</div><h1>Explore randomness.<br><span>Measure convergence.</span></h1><p>Estimate π and Euler’s number. Control the experiment, compare every run and see how accuracy changes.</p></section>
+<section class="intro"><div><div class="eyebrow"><span class="live-dot"></span> THE EXPERIMENT LAB <span>/</span> MONTE CARLO</div><h1>A little randomness.<br><span>A clearer picture.</span></h1><p>Explore π and Euler’s number. Run your experiment,<br class="desktop-break"> follow convergence, and find the signal in the noise.</p></div><div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><span class="math-symbol">π<span>+ e</span></span><span class="art-label">RANDOMNESS → PRECISION</span></div></section>
 <div class="workspace">
 <aside>
 <form id="settings" class="dx-lead-form">
-<div class="section-title"><span>01</span><h2>Experiment setup</h2></div>
+<div class="section-title"><span class="setup-icon">⌘</span><h2>Experiment setup</h2></div>
 <label>Sample sizes <span>comma separated</span><input id="sizes" value="10, 100, 1000, 10000" required autocomplete="off"></label>
 <div class="form-pair"><label>Runs per size<input id="runs" type="number" min="2" max="50" value="5" required></label><label>Experiment<select id="experiment"><option value="both">Pi + Euler</option><option value="pi">Pi only</option><option value="e">Euler only</option></select></label></div>
 <label>Random seed<input id="seed" type="number" min="0" max="4294967295" value="20261019" required></label>
@@ -27,14 +28,14 @@
 <section class="method-note"><h3>Behind the numbers</h3><p><b>π</b> counts random points inside a quarter circle.</p><p><b>e</b> averages how many uniform random values it takes for their sum to exceed 1.</p><p class="muted">Standard deviation measures variation across runs. It is not a confidence interval.</p></section>
 </aside>
 <section class="results-area">
-<div class="result-top"><div><div class="eyebrow">02 / RESULTS</div><h2>Your experiment at a glance</h2></div><div class="exports"><a href="/export.csv" download>CSV ↓</a><a href="/export.json" download>JSON ↓</a></div></div>
+<div class="result-top"><div><div class="eyebrow">LIVE ANALYSIS</div><h2>Results workspace</h2></div><div class="exports"><a href="/export.csv" download>CSV ↓</a><a href="/export.json" download>JSON ↓</a></div></div>
 <div id="metrics" class="metrics"><div><small>PI ESTIMATE</small><strong>—</strong></div><div><small>EULER ESTIMATE</small><strong>—</strong></div><div><small>COMPLETED RUNS</small><strong>0</strong></div></div>
-<nav class="tabs" aria-label="Result views"><button class="active" data-view="charts">Interactive charts</button><button data-view="table">All results</button><button data-view="log">Run log</button></nav>
-<div id="charts" class="view"><div id="plot-pi" class="plot"></div><div id="plot-e" class="plot"></div><p class="chart-help">Drag to zoom · Double-click to reset · Use the camera icon to save a chart</p></div>
-<div id="table" class="view" hidden><div class="table-scroll"><table><thead><tr><th>Experiment</th><th>n</th><th>Run</th><th>Estimate</th><th>Mean</th><th>Absolute error</th><th>SD</th></tr></thead><tbody id="rows"></tbody></table></div></div>
-<div id="log" class="view" hidden><pre id="logs">Waiting for a simulation.</pre></div>
+<div class="analysis-toolbar"><div id="triple-tabs"></div><span class="analysis-caption"><span class="live-dot"></span> Reproducible by design</span></div>
+<div id="charts" class="view" role="tabpanel"><div id="plot-pi" class="plot"></div><div id="plot-e" class="plot"></div><p class="chart-help">Drag to zoom · Double-click to reset · Use the camera icon to save a chart</p></div>
+<div id="table" class="view" role="tabpanel" hidden><div class="table-scroll"><table><thead><tr><th>Experiment</th><th>n</th><th>Run</th><th>Estimate</th><th>Mean</th><th>Absolute error</th><th>SD</th></tr></thead><tbody id="rows"></tbody></table></div></div>
+<div id="log" class="view" role="tabpanel" hidden><pre id="logs">Waiting for a simulation.</pre></div>
 </section>
 </div>
 </main>
-<footer><span>Monte Carlo Studio · Reproducible numerical experiments</span><span class="signature">doğukan ercan</span></footer>
+<footer><span>Monte Carlo Studio <span class="footer-separator">/</span> Built for curious minds.</span><a href="https://ui.tripled.work" target="_blank" rel="noreferrer">UI TripleD components ↗</a></footer>
 </body></html>

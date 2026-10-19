@@ -1,0 +1,1 @@
+{"name":"monte-carlo-studio-ui","private":true,"scripts":{"build":"esbuild frontend/components.jsx --bundle --minify --legal-comments=eof --outfile=assets/components.js --define:process.env.NODE_ENV=\"\\\"production\\\"\""},"dependencies":{"react":"^19.2.0","react-dom":"^19.2.0","framer-motion":"^12.0.0","@base-ui/react":"^1.0.0"},"devDependencies":{"esbuild":"^0.25.0"}}

@@ -128,3 +128,17 @@ Testler π sınır koşulunu, e toplamının tam 1 olması durumunu, 40 varsayı
 
 - [Go embed](https://pkg.go.dev/embed): arayüzün derlenmiş dosyaya alınması.
 - [Go math/rand/v2](https://pkg.go.dev/math/rand/v2): PCG ve deterministik üreteç.
+
+## UI TripleD arayüzü
+
+Güncel arayüz UI TripleD'nin MIT lisanslı Native Tabs ve Native Magnetic bileşenlerinden uyarlanmıştır. `frontend/components.jsx` gerçek React / Base UI / Framer Motion bileşenlerini içerir. Sekmeler klavye ile kullanılabilir; aktif sekme hareketli bir arka planla belirtilir. İmza üzerinde hafif manyetik hareket vardır; azaltılmış hareket tercihinde kapatılır. Go hesaplaması değişmemiştir. DengeX CSS artık sayfada yüklenmez; eski dosyalar kaynak bilgileriyle korunur.
+
+Arayüz bileşenlerini değiştirdikten sonra:
+
+```sh
+npm ci
+npm run build
+go build -trimpath -o bin/monte-carlo-studio .
+```
+
+Node.js yalnızca ön yüzü derlemek için gerekir. Hazır `assets/components.js` Git deposunda olduğundan normal Go derlemesi ve programın çalışması Node.js gerektirmez. `assets/vendor/SOURCES.md` uyarlanan dosyaları ve lisansı açıklar.

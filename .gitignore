@@ -6,3 +6,5 @@ tmp/
 output/
 odev_ciktilari/
 *.log
+
+bin/

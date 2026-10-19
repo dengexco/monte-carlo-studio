@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="app-token" content="__TOKEN__"><title>Monte Carlo Studio</title>
+<link rel="stylesheet" href="/assets/vendor/dengex-app.css">
+<link rel="stylesheet" href="/assets/vendor/dengex-marketing.css">
+<link rel="stylesheet" href="/assets/app.css">
+<script defer src="/assets/vendor/plotly.min.js"></script><script defer src="/assets/app.js"></script>
+</head>
+<body>
+<header class="topbar"><a class="wordmark" href="/">Monte Carlo <span>Studio</span></a><div class="header-meta"><span class="dot"></span> LOCAL SIMULATION LAB <a href="https://dengex.com" target="_blank" rel="noreferrer">DengeX design ↗</a></div></header>
+<main>
+<section class="intro"><div class="eyebrow">STOCHASTIC PROCESSES / EXPERIMENT WORKSPACE</div><h1>Explore randomness.<br><span>Measure convergence.</span></h1><p>Estimate π and Euler’s number. Control the experiment, compare every run and see how accuracy changes.</p></section>
+<div class="workspace">
+<aside>
+<form id="settings" class="dx-lead-form">
+<div class="section-title"><span>01</span><h2>Experiment setup</h2></div>
+<label>Sample sizes <span>comma separated</span><input id="sizes" value="10, 100, 1000, 10000" required autocomplete="off"></label>
+<div class="form-pair"><label>Runs per size<input id="runs" type="number" min="2" max="50" value="5" required></label><label>Experiment<select id="experiment"><option value="both">Pi + Euler</option><option value="pi">Pi only</option><option value="e">Euler only</option></select></label></div>
+<label>Random seed<input id="seed" type="number" min="0" max="4294967295" value="20261019" required></label>
+<button id="new-seed" type="button" class="text-button">↻ Generate a new seed</button>
+<div class="form-actions"><button id="run" type="submit" class="primary">Run simulation <span>↗</span></button><button id="stop" type="button" class="secondary" disabled>Stop</button></div>
+<p id="error" role="alert"></p>
+</form>
+<div class="run-state"><div class="status-line"><span id="status">Ready</span><span id="percent">0%</span></div><progress id="progress" value="0" max="100"></progress><p id="run-detail">Your results will appear here.</p></div>
+<section class="method-note"><h3>Behind the numbers</h3><p><b>π</b> counts random points inside a quarter circle.</p><p><b>e</b> averages how many uniform random values it takes for their sum to exceed 1.</p><p class="muted">Standard deviation measures variation across runs. It is not a confidence interval.</p></section>
+</aside>
+<section class="results-area">
+<div class="result-top"><div><div class="eyebrow">02 / RESULTS</div><h2>Your experiment at a glance</h2></div><div class="exports"><a href="/export.csv" download>CSV ↓</a><a href="/export.json" download>JSON ↓</a></div></div>
+<div id="metrics" class="metrics"><div><small>PI ESTIMATE</small><strong>—</strong></div><div><small>EULER ESTIMATE</small><strong>—</strong></div><div><small>COMPLETED RUNS</small><strong>0</strong></div></div>
+<nav class="tabs" aria-label="Result views"><button class="active" data-view="charts">Interactive charts</button><button data-view="table">All results</button><button data-view="log">Run log</button></nav>
+<div id="charts" class="view"><div id="plot-pi" class="plot"></div><div id="plot-e" class="plot"></div><p class="chart-help">Drag to zoom · Double-click to reset · Use the camera icon to save a chart</p></div>
+<div id="table" class="view" hidden><div class="table-scroll"><table><thead><tr><th>Experiment</th><th>n</th><th>Run</th><th>Estimate</th><th>Mean</th><th>Absolute error</th><th>SD</th></tr></thead><tbody id="rows"></tbody></table></div></div>
+<div id="log" class="view" hidden><pre id="logs">Waiting for a simulation.</pre></div>
+</section>
+</div>
+</main>
+<footer><span>Monte Carlo Studio · Reproducible numerical experiments</span><span class="signature">doğukan ercan</span></footer>
+</body></html>

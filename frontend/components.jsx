@@ -16,4 +16,4 @@ function NativeMagnetic({children}){
  return <motion.div ref={ref} className="creator" onPointerMove={move} onPointerLeave={()=>{x.set(0);y.set(0);}} style={{x:reduced?0:tx,y:reduced?0:ty}}>{children}</motion.div>;
 }
 createRoot(document.getElementById('triple-tabs')).render(<NativeTabs/>);
-createRoot(document.getElementById('creator')).render(<NativeMagnetic><span className="creator-avatar">de<span>↗</span></span><span><small>CRAFTED BY</small><strong>Dogukan Ercan</strong></span></NativeMagnetic>);
+createRoot(document.getElementById('creator')).render(<NativeMagnetic><img className="creator-logo" src="/assets/vendor/dengex-logo.png" alt="DengeX" width="1536" height="434"/><span><small>CRAFTED BY</small><strong>Dogukan Ercan</strong></span></NativeMagnetic>);

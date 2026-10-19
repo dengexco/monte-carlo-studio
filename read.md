@@ -1,6 +1,287 @@
-# Monte Carlo Studio — Go sürümü
+# Monte Carlo Studio — sıfırdan, adım adım
 
-Bu proje AI yardımıyla geliştirilmiş bir simülasyon uygulamasıdır. Hesaplama, HTTP sunucusu, doğrulama ve dışa aktarma Go ile yapılır. Python yalnızca derlenmiş programı başlatan isteğe bağlı bir dosyadır. Arayüz HTML/CSS/JavaScript ve yerel Plotly dosyasından oluşur.
+Bu rehber hiçbir programlama bilgisi gerektirmeden sistemi anlaman için yazıldı. Önce ekranı ve deneyleri, sonra dosyaların içinde neler olduğunu anlatıyor. Proje AI yardımıyla geliştirilmiştir.
+
+## 1. Bu program ne yapıyor?
+
+Program rastgele sayılar kullanarak iki sayıya yaklaşmaya çalışıyor:
+
+- **π (pi):** yaklaşık 3,141593.
+- **e (Euler sayısı):** yaklaşık 2,718282.
+
+Bu sayıları hesap makinesinden okuyup sonuç diye yazmıyor. Deney yapıp bir tahmin üretiyor. Bildiğimiz gerçek değerleri de tahminimizin ne kadar iyi olduğunu görmek için kullanıyor.
+
+“Monte Carlo” burada bir yöntem adı: kesin cevabı doğrudan hesaplamak yerine çok sayıda rastgele deneme yapıyoruz. Az denemede şansın etkisi büyük; çok denemede sonuç genellikle daha dengeli.
+
+## 2. Sistemi üç parça olarak düşün
+
+Bir restoran benzetmesi yapalım:
+
+| Parça | Restorandaki karşılığı | Bu projede yaptığı iş |
+| --- | --- | --- |
+| Tarayıcıdaki ekran | Menü ve sipariş ekranı | Ayarlarını alır, sonuçları ve grafikleri gösterir. |
+| Go programı | Mutfak | Deneyleri hesaplar, sonuçları saklar ve ekrana gönderir. |
+| Python dosyası | Kapıyı açan kişi | Hazır Go programını başlatır. Görevi bu kadar. |
+
+Grafikler tarayıcıda JavaScript ile çizilir. Simülasyon hesapları Go ile yapılır. **Python hesaplama yapmaz.** Python kullanmadan Go programını doğrudan çalıştırmak da mümkündür.
+
+## 3. Şimdi nasıl açacağım?
+
+Bu bilgisayardaki proje klasöründe `Monte Carlo.command` dosyasına çift tıklayabilirsin. Terminalden açmak istersen proje klasöründe şu komutu çalıştır:
+
+```sh
+python3 odev.py
+```
+
+Tarayıcı açılır. Varsayılan deney kendiliğinden başlar. Ekranda `Complete` ve `%100` görünmesi hesaplamanın bittiğini söyler.
+
+Terminal, bilgisayara yazıyla komut verdiğin penceredir. Komutları o pencereye yazıyorsun; Python dosyasının içine yapıştırmıyorsun. “Proje klasöründe çalıştır” demek terminalin bu dosyaların bulunduğu klasörde olması demektir.
+
+Programı kapatmak için onu başlattığın terminalde **Ctrl+C** kullan. Yalnızca tarayıcı sekmesini kapatırsan program arka planda çalışmayı sürdürebilir.
+
+### GitHub’dan ilk kez indiren biri ne yapacak?
+
+Bilgisayarında Go 1.24 veya üzeri kurulu olmalı. Ardından:
+
+```sh
+git clone https://github.com/dengexco/monte-carlo-studio.git
+cd monte-carlo-studio
+go build -trimpath -o bin/monte-carlo-studio .
+./bin/monte-carlo-studio
+```
+
+Depo gizlidir; indiren kişinin GitHub üzerinden erişim yetkisi olmalıdır. Son iki komut macOS/Linux içindir. Windows'ta derleme çıktısına `.exe` eklenir:
+
+```sh
+go build -trimpath -o bin/monte-carlo-studio.exe .
+.\bin\monte-carlo-studio.exe
+```
+
+“Derlemek” yazdığımız Go dosyalarını bilgisayarın çalıştırabileceği programa çevirmek demektir. `bin` klasörü bu hazır programın bulunduğu yerdir. Hazır program GitHub’a yüklenmez; kaynak koddan oluşturulur. Bu bilgisayardaki hazır dosya macOS ARM64 içindir.
+
+## 4. Ekrandaki kutulara ne yazacağım?
+
+| Ekrandaki yazı | Anlamı | Başlangıç için değer |
+| --- | --- | --- |
+| Sample sizes | Her tekrarda kaç deneme yapılacak? | `10, 100, 1000, 10000` |
+| Runs per size | Her büyüklük kaç kez yeniden denenecek? | `5` |
+| Experiment | Hangi sayıyı tahmin edeceğiz? | `Pi + Euler` |
+| Random seed | Rastgele sayı dizilerini belirleyen başlangıç numarası | `20261019` |
+| Run simulation | Bu ayarlarla yeni deney başlat | Düğmeye bas. |
+| Stop | Devam eden hesabı durdur | Gerekirse bas. |
+
+**N ile tekrar sayısı aynı şey değildir.** N=100 ve tekrar=5 dediğinde tek bir 500 denemelik tahmin yapmıyoruz. Her birinde 100 deneme olan 5 ayrı tahmin üretiyoruz. Sonra bu 5 tahminin ortalamasını alıyoruz.
+
+Varsayılan ekrandaki **40**, `4 büyüklük × 5 tekrar × 2 deney türü` demektir. Toplam kullanılan rastgele sayı adedi değildir.
+
+Seed'i bir müzik listesinin numarası gibi düşünebilirsin. Aynı numara ve aynı ayarlar aynı dizileri üretir. Seed'i değiştirince farklı bir deney elde edersin. Aynı seed ile yeniden çalıştırınca aynı sonuç çıkması programın bozulduğu anlamına gelmez.
+
+## 5. Pi deneyi: kareye nokta atmak
+
+Kenarları 1 birim olan bir kare düşün. İçine yarıçapı 1 olan bir çeyrek daire çiz. Bilgisayar bu karenin içine rastgele noktalar koyuyor.
+
+Her noktanın iki koordinatı var: x ve y. İkisi de 0 dahil, 1 hariç aralıktan seçiliyor. `x² + y² ≤ 1` ise nokta çeyrek dairenin içinde veya sınırındadır.
+
+Kare alanı 1; çeyrek daire alanı π/4. Dolayısıyla içeride kalan noktaların oranı yaklaşık π/4 olur. Oranı 4 ile çarpınca π tahmini çıkar.
+
+**Sadece anlatım için örnek:** 100 noktadan 79'u içeride kaldıysa:
+
+```text
+İçerideki oran = 79 / 100 = 0,79
+Pi tahmini    = 4 × 0,79 = 3,16
+```
+
+Program bunu her tekrar için yeniden yapar. Yukarıdaki 79 sayısı sabit bir program sonucu değildir.
+
+## 6. Euler deneyi: toplam 1’i geçene kadar sayı eklemek
+
+Bu deneyde nokta veya daire yok. Başlangıçta toplam 0:
+
+```text
+0,40 geldi → toplam 0,40 → devam et
+0,35 geldi → toplam 0,75 → devam et
+0,50 geldi → toplam 1,25 → dur
+```
+
+Bu turda 3 sayı kullandık. Sonuç olarak **3** kaydediyoruz; 1,25'i değil.
+
+Sonra toplamı tekrar sıfırlayıp yeni tur yapıyoruz. N=100 ise 100 tur yapıp her turda kaç sayı gerektiğinin ortalamasını alıyoruz. Bu ortalama e sayısını tahmin ediyor. Yöntemin matematiksel özelliği, bir turdaki sayı adedinin beklenen değerinin e olmasıdır.
+
+Toplamın tam 1 olması yetmez: **1'i aşması** gerekir. Örneğin 0,50 + 0,50 = 1 olduğunda bir sayı daha eklenir.
+
+Buradaki N, kaç tur yaptığımızdır. Tek bir turda birden fazla rastgele sayı kullanılır.
+
+## 7. Sonuçları nasıl okuyacağım?
+
+| Terim | Günlük dille anlamı |
+| --- | --- |
+| Estimate | Bir tekrarın bulduğu tahmin. |
+| Mean | Aynı N için tekrarların ortalaması. |
+| Theoretical / Reference | Karşılaştırma için kullandığımız gerçek değer. |
+| Absolute error | Ortalamanın gerçek değerden uzaklığı. Küçük olması iyi. |
+| SD / Sample SD | Tekrar sonuçlarının birbirinden ne kadar ayrıldığı. Küçükse daha tutarlı. |
+| Completed runs | Tamamlanan tekrarların sayısı. |
+
+Örneğin 3 tahmin `3,10; 3,20; 3,15` ise ortalama `(3,10 + 3,20 + 3,15) / 3 = 3,15` olur. Pi için mutlak hata yaklaşık `|3,15 − 3,141593| = 0,008407` olur. Dikey çizgiler “eksi işaretini önemseme, uzaklığı al” demektir.
+
+SD ile hata farklı soruları cevaplar. Tekrarlar birbirine çok yakın olup gerçek değerden uzak olabilir. Bu durumda SD küçük, hata büyük olabilir. SD bir güven aralığı değildir.
+
+Üstteki büyük π ve e kartları **o deney için tamamlanan en büyük N grubunun ortalamasını** gösterir. Tüm N değerlerinin ortak ortalamasını göstermez.
+
+### Grafikler
+
+Her deneyin sol grafiği tahminleri gösterir. Noktalar tekrarlar, ortalama çizgisi onların ortalaması, teorik çizgi hedef değerdir. Sağ grafik hata ve SD'yi gösterir.
+
+Yatay eksende 10, 100, 1000 ve 10000 eşit aralıklı görünebilir. Çünkü eksen logaritmiktir: her adımda 10 kat büyür. Sağ grafiğin dikey ekseni de logaritmiktir. Sıfırın logaritması gösterilemediği için hata veya SD tam sıfırsa o değer bu grafikte atlanır.
+
+Fareyle alan seçerek yakınlaştırabilir, çift tıklayarak görünümü sıfırlayabilirsin. Kamera düğmesi grafiği PNG resim olarak indirir.
+
+### N arttığında ne bekleyeceğim?
+
+Genellikle daha kararlı ve gerçek değere daha yakın tahminler. Ama her yeni N'de hatanın mutlaka düşmesi gerekmez; deney hâlâ rastgeledir. Tipik hata ölçeği yaklaşık `1 / √N` olduğu için deneme sayısını 4 katına çıkarmak hatanın tipik ölçeğini yaklaşık yarıya indirir; bu tek bir çalışmanın garantisi değildir.
+
+## 8. Sonuçları nasıl kaydederim?
+
+- **Overview:** grafikler.
+- **All results:** her tekrarın sayısal sonucu ve grup istatistikleri.
+- **Run log:** tamamlanan tekrarların sıralı günlüğü.
+- **CSV:** Excel gibi programlarla açabileceğin tablo dosyası.
+- **JSON:** ayarlar, günlük ve sonuçların programlar tarafından okunabilir kaydı.
+
+Yeni deney başlatınca eski sonuçlar değişir. Programı kapatınca bellekteki sonuçlar kaybolur. Saklamak istiyorsan önce indir.
+
+Stop'a bastığında yarım kalan grup için ortalama tabloya eklenmez. Tamamlanmış tekrarları günlükte görebilirsin; CSV sadece tamamen bitmiş grupları içerir. Bu yüzden iptal edilmiş bir deneyde günlükte CSV'den daha fazla tekrar olabilir.
+
+## 9. Run’a basınca arka planda ne oluyor?
+
+```text
+Sen ayarları girersin.
+        ↓
+Tarayıcı ayarları Go programına yollar.
+        ↓
+Go değerleri kontrol eder ve hesabı başlatır.
+        ↓
+Her tekrar bitince sonucu ve ilerlemeyi günceller.
+        ↓
+Tarayıcı yaklaşık 0,4 saniyede bir yeni durumu sorar.
+        ↓
+JavaScript sayıları tabloya yazar ve grafikleri çizer.
+```
+
+Ekran çok hızlı biten bir deneyde doğrudan %100'e atlayabilir. Bu normaldir: hesaplama, ekranın bir sonraki güncellemesinden önce bitmiştir.
+
+## 10. Dosyaları hangi sırayla okuyayım?
+
+| Sıra / Dosya | İçinde ne var? |
+| --- | --- |
+| 1. `odev.py` | Kısa başlatıcı. Proje yolunu bulur, hazır Go dosyasını kontrol eder ve çalıştırır. |
+| 2. `internal/simulation/simulation.go` | Asıl matematik ve deney yönetimi. |
+| 3. `main.go` | Tarayıcıyla konuşan yerel sunucu ve komut seçenekleri. |
+| 4. `assets/index.html` | Ekranın iskeleti: kutular, düğmeler ve sonuç alanları. |
+| 5. `assets/app.css` | Renkler, boşluklar, yazı büyüklükleri ve mobil görünüm. |
+| 6. `assets/app.js` | Başlat/durdur işlemleri, durum sorguları ve Plotly grafikleri. |
+| 7. `frontend/components.jsx` | UI TripleD'den uyarlanan animasyonlu sekmeler ve logo/imza hareketi. |
+| `assets/components.js` | Yukarıdaki React dosyasının tarayıcıya hazırlanmış hali; bunu elle düzenleme. |
+| `assets/vendor/dengex-logo.png` | DengeX sitesinden alınan gerçek logo. |
+| `assets/vendor/plotly.min.js` | Grafik çizme kütüphanesi. |
+| `assets/vendor/SOURCES.md` | Kullanılan üçüncü taraf kaynaklar ve lisans bilgileri. |
+| `go.mod` | Go projesinin adı ve gereken Go sürümü. |
+| `package.json` | Ön yüzün derleme komutu ve JavaScript bağımlılıkları. |
+| `package-lock.json` | Yüklenen JavaScript paketlerinin kesin sürümleri. |
+| `.gitignore` | GitHub'a hangi yerel dosyaların gönderilmeyeceği. |
+
+Eski DengeX CSS dosyaları klasörde duruyor ama güncel sayfada yüklenmiyor. Güncel tasarım özel CSS ile UI TripleD bileşenlerini birleştiriyor.
+
+## 11. Go dosyasındaki isimler ne anlama geliyor?
+
+`Config` deney ayarlarının kutusudur: N listesi, tekrar sayısı, seed ve deney türü. `Validate` bu ayarları kontrol eder. Örneğin N=0 kabul edilmez.
+
+`Manager` deneyin yöneticisidir. Bir deney çalışırken ikinci deneyin başlamasını engeller. `Start` başlatır, `Stop` iptal ister, `Wait` işin bitmesini bekler.
+
+`Estimate` bir tekrarın hesabını yapar. π seçiliyse nokta sayar; e seçiliyse toplamın 1'i aşması için gereken sayı adetlerini toplar.
+
+`summarize` tekrar sonuçlarının ortalamasını, mutlak hatasını ve örneklem standart sapmasını hesaplar. Standart sapma hesabında bölen tekrar sayısının bir eksiğidir.
+
+`Row` bir N grubunun sonuç kutusudur. `Log` tek bir tamamlanmış tekrarın kaydıdır. `State` ekranda görülecek bütün durumdur: çalışıyor mu, yüzde kaç bitti, hangi sonuçlar hazır?
+
+`Snapshot` o durumun bağımsız bir kopyasını alır. Böylece ekran sonuçları okurken hesaplama kendi işine devam edebilir.
+
+Bir **goroutine**, Go'nun ayrı bir iş akışı başlatmasıdır. Hesaplama bu akışta sürerken sunucu tarayıcıya cevap verebilir. **Mutex**, aynı durum bilgisinin eş zamanlı değiştirilmesini/okunmasını düzenleyen kilittir. **Context**, Stop'a basınca çalışana iletilen iptal sinyalidir. Hesaplama bu sinyali düzenli aralıklarla kontrol eder.
+
+`main.go` içindeki `handler`, gelen isteği ilgili işe yönlendirir. **API**, tarayıcı ile Go'nun anlaştığı adreslerdir. `/api/start` başlatma, `/api/state` durum sorma, `/api/stop` durdurma adresidir. **JSON**, bu konuşmada kullanılan yapılandırılmış yazı biçimidir.
+
+## 12. “Local”, port ve token ne demek?
+
+`127.0.0.1` kendi bilgisayarını gösterir. `8765` bir kapı numarası gibi çalışan **port** numarasıdır. `http://127.0.0.1:8765/` bu bilgisayardaki programın o kapısına gitmek demektir. Bu adres internette herkese açık bir site değildir.
+
+Program varsayılan olarak boş bir port seçer. Hep 8765 kullanmak istersen:
+
+```sh
+python3 odev.py --port 8765
+```
+
+**Token**, programın sayfaya verdiği geçici doğrulama değeridir. Tarayıcı başlatma/durdurma isteğinde bunu geri yollar. Program ayrıca istenen adresi kontrol eder. Bunlar yerel sunucuya yanlış kaynaklardan gelen istekleri sınırlamak içindir; uygulama internete açık çok kullanıcılı servis olarak tasarlanmamıştır.
+
+## 13. Bir şeyi değiştirirsem ne yapmalıyım?
+
+Go, HTML, CSS, `assets/app.js` veya logo değiştirdiysen:
+
+```sh
+go build -trimpath -o bin/monte-carlo-studio .
+```
+
+Sonra eski programı Ctrl+C ile durdur ve tekrar başlat. Sayfayı yenile. Çünkü Go arayüz dosyalarını derleme sırasında kendi içine alıyor. Sadece dosyayı kaydetmek, çalışan eski programı değiştirmez.
+
+React bileşenlerini (`frontend/components.jsx`) değiştirdiysen önce bunları tarayıcının okuyacağı dosyaya çevir:
+
+```sh
+npm ci
+npm run build
+go build -trimpath -o bin/monte-carlo-studio .
+```
+
+Bu işlem için Node.js/npm gerekir. `npm ci` kilit dosyasındaki paketleri yükler; `npm run build` bunları tek bir ön yüz dosyası halinde hazırlar. Hazır dosya depoda bulunduğu için yalnızca uygulamayı çalıştıran kişinin Node.js kurmasına gerek yoktur.
+
+## 14. Sık karşılaşılan durumlar
+
+| Gördüğün durum | Yapacağın şey |
+| --- | --- |
+| “Go uygulaması derlenmemiş” | Yukarıdaki `go build` komutunu proje klasöründe çalıştır. |
+| `go: command not found` | Go kurulu değil veya terminal bulamıyor. Go kurulumu ve PATH ayarını kontrol et. |
+| “address already in use” | Seçilen port dolu. Kendi eski uygulamanı kapat veya `--port` vermeden başlat. |
+| Tarayıcı sunucuya ulaşamıyor | Terminalde programın çalıştığını ve açtığın adresin terminalde yazan adres olduğunu kontrol et. |
+| Tasarım değişikliği görünmüyor | Gerekli ön yüz derlemesini, ardından Go derlemesini yap; programı yeniden başlat ve sayfayı yenile. |
+| Sonuçlar her seferinde aynı | Seed aynıysa beklenen davranış. Farklı deney için seed'i değiştir. |
+| Eski Python çıktısıyla sayılar uyuşmuyor | Go farklı rastgele sayı üreteci kullanıyor. Eski raporlar otomatik güncellenmez. |
+| N büyüdü ama hata da büyüdü | Tek bir rastgele deneyde mümkün. Büyük N her adımda iyileşme garantisi vermez. |
+
+## 15. Programın doğru çalıştığını nasıl kontrol ediyoruz?
+
+```sh
+go test -race ./...
+go vet ./...
+```
+
+İlk komut otomatik kontrolleri çalıştırır; `-race` çalıştırılan kod yollarında eş zamanlı veri erişimi sorunlarını da arar. İkinci komut Go kodunda şüpheli kullanımları inceler. Testin geçmesi mümkün olan bütün hataların yok olduğu anlamına gelmez; test edilen davranışların beklendiği gibi çalıştığını gösterir.
+
+Kontroller arasında π sınırı, e için toplamın tam 1 olması, 40 tekrarın tamamlanması, aynı seed'in aynı sonucu üretmesi, iptal, hatalı ayarlar, API erişim kontrolleri ve CSV satırları var.
+
+## 16. Kendini kontrol et
+
+Bu soruları kendi cümlelerinle cevaplayabiliyorsan temel sistemi anlamışsındır:
+
+1. N=100 ile tekrar=5 arasındaki fark ne?
+2. Pi tahmininde neden 4 ile çarpıyoruz?
+3. Euler deneyinde 1,25 toplamını mı, kullanılan sayı adedini mi kaydediyoruz?
+4. Ortalama, mutlak hata ve SD hangi farklı bilgileri veriyor?
+5. Seed aynıysa neden sonuçlar tekrar ediyor?
+6. Python'un görevi ne; asıl hesap nerede yapılıyor?
+7. CSS değişince neden Go programını tekrar derliyoruz?
+8. Sonuçları kaydetmeden programı kapatırsan ne olur?
+
+Aşağıdaki bölüm, ayrıntıya bakmak istediğinde başvurabileceğin teknik bilgileri korur.
+
+---
 
 ## Çalıştırma ve derleme
 

@@ -18,3 +18,5 @@ Adapted components in `frontend/components.jsx`:
 - `packages/components/react-shadcn/src/components/native/native-magnetic-shadcnui.tsx`: spring-based magnetic pointer movement, adapted to the creator credit and reduced-motion preference.
 
 The dashboard layout and styling are custom. DengeX assets remain archived in this directory but are no longer loaded. React, React DOM, Framer Motion and Base UI are bundled locally in `assets/components.js`; dependency versions are locked in `package-lock.json` and license notices are retained in the bundle. No remote scripts are required at runtime.
+
+DengeX header logo: https://dengex.com/futureofbalance.png (downloaded 2026-10-19). Original image preserved; rendered white on the dark header using CSS.

@@ -109,7 +109,7 @@ func handler(m *simulation.Manager, host, token string) http.Handler {
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
 			_, _ = io.WriteString(w, strings.ReplaceAll(string(b), "__TOKEN__", token))
 		default:
-			allowed := map[string]string{"/assets/app.css": "text/css", "/assets/components.js": "text/javascript", "/assets/app.js": "text/javascript", "/assets/vendor/dengex-app.css": "text/css", "/assets/vendor/dengex-marketing.css": "text/css", "/assets/vendor/plotly.min.js": "text/javascript"}
+			allowed := map[string]string{"/assets/app.css": "text/css", "/assets/vendor/dengex-logo.png": "image/png", "/assets/components.js": "text/javascript", "/assets/app.js": "text/javascript", "/assets/vendor/dengex-app.css": "text/css", "/assets/vendor/dengex-marketing.css": "text/css", "/assets/vendor/plotly.min.js": "text/javascript"}
 			contentType, ok := allowed[r.URL.Path]
 			if !ok {
 				fail(404, "Not found")

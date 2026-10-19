@@ -423,3 +423,11 @@ go build -trimpath -o bin/monte-carlo-studio .
 ```
 
 Node.js yalnızca ön yüzü derlemek için gerekir. Hazır `assets/components.js` Git deposunda olduğundan normal Go derlemesi ve programın çalışması Node.js gerektirmez. `assets/vendor/SOURCES.md` uyarlanan dosyaları ve lisansı açıklar.
+
+## Ders PDF’si ile doğrulama ve Docs sekmesi
+
+Kaynak: `I-Stochastic Processes.pdf`, 67 sayfa, Manisa Celal Bayar University / Industrial Engineering. 61–66. sayfalar incelendi. π yöntemi 62. sayfadaki çeyrek daire sayımıyla; e yöntemi 64. sayfadaki toplam 1’i aşana kadar çekiliş sayımıyla aynıdır. Algoritma değişikliği gerekmedi. e kodundaki sayaç tüm turların çekilişlerini biriktirir; n’e bölünmesi slayttaki Nᵢ değerlerinin ortalamasıyla aynıdır.
+
+Uygulamanın **Docs** sekmesi yöntemleri, 63 ve 65. sayfalardaki yatay sonuç tablolarını (Run 1…Run 5, Mean, Reference), ayar uygunluğu göstergesini ve 66. sayfadaki beş tartışma sorusunu içerir. Tablolar mevcut simülasyon verisinden oluşur. Yorumlama kılavuzu, gözlenmemiş sonuçlar hakkında hüküm vermez.
+
+Dil şartı farklılığı: PDF 61. sayfada Python ister; ayrıca paylaşılan yönerge başka dillere izin verir. Kullanıcının Go tercihi korunmuştur. Bu nedenle matematiksel yöntem eşleşmesi, Python şartıyla veya AI kullanımı yasağıyla tam teslim uygunluğu anlamına gelmez. Ders PDF’si depoya kopyalanmamıştır.

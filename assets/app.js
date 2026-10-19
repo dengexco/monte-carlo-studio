@@ -39,6 +39,9 @@ function render(state) {
     $('percent').textContent=Math.round(state.progress)+'%';
     $('progress').value=state.progress;
     if(state.error) $('error').textContent=state.error;
+    const course=state.settings;
+    const matches=course && course.runs===5 && course.experiment==='both' && JSON.stringify(course.sizes)===JSON.stringify([10,100,1000,10000]);
+    $('course-status').textContent=!course?'No experiment yet.':matches?'Course settings selected · '+state.status:'Exploratory settings · use both experiments, 5 runs and n = 10, 100, 1000, 10000 for the course format.';
     const latest=state.logs.at(-1);
     $('run-detail').textContent=latest ? `${latest.experiment.toUpperCase()} · n=${latest.n.toLocaleString('en-US')} · run ${latest.run} · ${number(latest.estimate)}`:'Choose settings and run your first experiment.';
     const key=JSON.stringify(state.results);
@@ -56,6 +59,13 @@ function render(state) {
         const rows=[];
         for(const [name,groups] of Object.entries(results)) for(const row of groups) row.runs.forEach((value,i)=>rows.push(`<tr><td>${name==='pi'?'π':'e'}</td><td>${row.n.toLocaleString('en-US')}</td><td>${i+1}</td><td>${number(value)}</td><td>${number(row.mean)}</td><td>${number(row.error)}</td><td>${number(row.sd)}</td></tr>`));
         $('rows').innerHTML=rows.join('');
+        $('course-tables').innerHTML=['pi','e'].map(name=>{
+            const groups=results[name]||[];
+            if(!groups.length) return '<h4>'+ (name==='pi'?'π':'e') +'</h4><p>No completed groups yet.</p>';
+            const headings=Array.from({length:state.settings.runs},(_,i)=>'<th>Run '+(i+1)+'</th>').join('');
+            return '<h4>'+(name==='pi'?'π estimates':'e estimates')+'</h4><div class="table-scroll"><table><thead><tr><th>n</th>'+headings+'<th>Mean</th><th>Reference</th></tr></thead><tbody>'+groups.map(r=>'<tr><td>'+r.n+'</td>'+r.runs.map(v=>'<td>'+number(v)+'</td>').join('')+'<td>'+number(r.mean)+'</td><td>'+r.reference.toFixed(5)+'</td></tr>').join('')+'</tbody></table></div>';
+        }).join('');
+
     }
     if($('run-count')) $('run-count').textContent=state.logs.length;
     $('logs').textContent=state.logs.length?state.logs.map(r=>`${r.experiment.toUpperCase().padEnd(3)}  n=${String(r.n).padEnd(8)}  run ${String(r.run).padEnd(3)}  estimate ${number(r.estimate)}`).join('\n'):'Waiting for a simulation.';

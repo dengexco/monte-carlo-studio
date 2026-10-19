@@ -6,7 +6,7 @@ import {Tabs} from '@base-ui/react/tabs';
 import {motion, MotionConfig, useMotionValue, useSpring, useTransform, useReducedMotion} from 'framer-motion';
 function NativeTabs(){
  const id=useId(); const [active,setActive]=useState('charts');
- const items=[['charts','Overview'],['table','All results'],['log','Run log']];
+ const items=[['charts','Overview'],['table','All results'],['log','Run log'],['docs','Docs']];
  function select(value){setActive(value);for(const view of document.querySelectorAll('.view')) view.hidden=view.id!==value;if(value==='charts') requestAnimationFrame(()=>{for(const name of ['plot-pi','plot-e']){const el=document.getElementById(name);if(el.data) window.Plotly.Plots.resize(el);}});}
  return <MotionConfig reducedMotion="user"><Tabs.Root value={active} onValueChange={select}><Tabs.List className="triple-tabs" aria-label="Result views">{items.map(([value,label])=><Tabs.Tab key={value} value={value} className="triple-tab" aria-controls={value}>{active===value&&<motion.span className="tab-pill" layoutId={id} transition={{type:'spring',duration:.45,bounce:.15}}/>}<span>{label}</span></Tabs.Tab>)}</Tabs.List></Tabs.Root></MotionConfig>;
 }

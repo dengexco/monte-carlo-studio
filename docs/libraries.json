@@ -1,0 +1,37 @@
+[
+  [
+    "react",
+    "19.3.1",
+    "Arayüz bileşenleri"
+  ],
+  [
+    "react-dom",
+    "19.3.1",
+    "React bileşenlerini sayfaya yerleştirme"
+  ],
+  [
+    "framer-motion",
+    "12.43.0",
+    "Sekme ve imza animasyonları"
+  ],
+  [
+    "@base-ui/react",
+    "1.9.0",
+    "Klavye destekli sekmeler"
+  ],
+  [
+    "esbuild",
+    "0.25.12",
+    "Ön yüzü tek dosyaya derleme"
+  ],
+  [
+    "Plotly.js",
+    "4.1.1",
+    "Grafikler ve PNG indirme"
+  ],
+  [
+    "UI TripleD",
+    "Kaynak uyarlaması",
+    "Native Tabs ve Native Magnetic"
+  ]
+]

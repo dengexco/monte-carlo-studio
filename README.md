@@ -118,4 +118,3 @@ Sürümler [kütüphane listesinde](docs/Kutuphaneler.md), kaynaklar [SOURCES.md
 
 Proje sahibi: **Doğukan Ercan**. GitHub hesabı: [DengeX](https://github.com/dengexco). Web: [dengex.com](https://dengex.com).
 
-Proje ve belgeler AI yardımıyla hazırlanmıştır. Matematiksel yöntemler paylaşılan ders notlarıyla karşılaştırılmıştır. İlgili dersin AI kullanımı ve programlama dili koşulları ayrıca geçerlidir; bu depo bağımsız öğrenci çalışması olarak sunulmaz.

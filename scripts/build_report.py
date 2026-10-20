@@ -56,5 +56,5 @@ p('Mean is the average of the five estimates for one n. Absolute error is the di
 h('References')
 p('I-Stochastic Processes.pdf, Manisa Celal Bayar University, Industrial Engineering: p. 15 (Law of Large Numbers), p. 48 (simulation accuracy), pp. 61–66 (assignment methods, tables and discussion). Application source and dependency notices are included in the project package.')
 def footer(c,d):
- c.setFont('Report',8);c.setFillColor(colors.HexColor('#777777'));c.drawString(47,25,'Monte Carlo Studio · 20 October 2026');c.drawRightString(548,25,str(d.page))
+ c.setFont('Report',8);c.setFillColor(colors.HexColor('#777777'));c.drawRightString(548,25,str(d.page))
 SimpleDocTemplate(str(ROOT/'docs/Monte-Carlo-Report.pdf'),pagesize=(595.28,841.89),rightMargin=47,leftMargin=47,topMargin=42,bottomMargin=42,title='Monte Carlo Simulation',author='').build(story,onFirstPage=footer,onLaterPages=footer)

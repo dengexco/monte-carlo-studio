@@ -69,7 +69,6 @@ p('Proje sahibi: Doğukan Ercan · DengeX')
 p('<link href="https://github.com/dengexco/monte-carlo-studio" color="#4058a5">https://github.com/dengexco/monte-carlo-studio</link>')
 p('Kaynak kod, kullanım açıklamaları, kütüphane bilgileri ve deney çıktıları bu adreste yer alır. Hazır ZIP paketi ile raporun güncel sürümü aşağıdaki Releases bağlantısından indirilebilir.')
 p('<link href="https://github.com/dengexco/monte-carlo-studio/releases/latest" color="#4058a5">GitHub üzerinden güncel paketi indir</link>')
-story.append(Paragraph('Geliştirme notu: Proje ve belgeler AI yardımıyla hazırlanmıştır. Hesaplama dili Go’dur; Python yalnızca başlatıcıdır. Dersin programlama dili ve AI kullanım koşulları ayrıca geçerlidir.',small))
 def footer(c,d):
  c.setFont('Report',8);c.setFillColor(colors.HexColor('#777777'));c.drawRightString(548,25,str(d.page))
 SimpleDocTemplate(str(ROOT/'docs/Monte-Carlo-Report.pdf'),pagesize=(595.28,841.89),rightMargin=47,leftMargin=47,topMargin=42,bottomMargin=42,title='Monte Carlo Simulation',author='').build(story,onFirstPage=footer,onLaterPages=footer)

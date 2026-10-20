@@ -1,0 +1,43 @@
+Monte Carlo Studio — 20 Ekim 2026
+Seed: 20261019 | Go PCG | 40 tamamlanan tekrar
+
+pi n=   10 tekrar=1 tahmin=3.600000
+pi n=   10 tekrar=2 tahmin=2.800000
+pi n=   10 tekrar=3 tahmin=2.400000
+pi n=   10 tekrar=4 tahmin=3.600000
+pi n=   10 tekrar=5 tahmin=2.000000
+pi n=  100 tekrar=1 tahmin=3.320000
+pi n=  100 tekrar=2 tahmin=3.160000
+pi n=  100 tekrar=3 tahmin=2.920000
+pi n=  100 tekrar=4 tahmin=3.320000
+pi n=  100 tekrar=5 tahmin=3.120000
+pi n= 1000 tekrar=1 tahmin=3.184000
+pi n= 1000 tekrar=2 tahmin=3.176000
+pi n= 1000 tekrar=3 tahmin=3.144000
+pi n= 1000 tekrar=4 tahmin=3.152000
+pi n= 1000 tekrar=5 tahmin=3.116000
+pi n=10000 tekrar=1 tahmin=3.142000
+pi n=10000 tekrar=2 tahmin=3.123200
+pi n=10000 tekrar=3 tahmin=3.124400
+pi n=10000 tekrar=4 tahmin=3.158800
+pi n=10000 tekrar=5 tahmin=3.131200
+e  n=   10 tekrar=1 tahmin=2.800000
+e  n=   10 tekrar=2 tahmin=2.900000
+e  n=   10 tekrar=3 tahmin=3.600000
+e  n=   10 tekrar=4 tahmin=2.600000
+e  n=   10 tekrar=5 tahmin=2.600000
+e  n=  100 tekrar=1 tahmin=2.720000
+e  n=  100 tekrar=2 tahmin=2.790000
+e  n=  100 tekrar=3 tahmin=2.860000
+e  n=  100 tekrar=4 tahmin=2.780000
+e  n=  100 tekrar=5 tahmin=2.730000
+e  n= 1000 tekrar=1 tahmin=2.729000
+e  n= 1000 tekrar=2 tahmin=2.794000
+e  n= 1000 tekrar=3 tahmin=2.734000
+e  n= 1000 tekrar=4 tahmin=2.667000
+e  n= 1000 tekrar=5 tahmin=2.710000
+e  n=10000 tekrar=1 tahmin=2.721800
+e  n=10000 tekrar=2 tahmin=2.724700
+e  n=10000 tekrar=3 tahmin=2.721800
+e  n=10000 tekrar=4 tahmin=2.712400
+e  n=10000 tekrar=5 tahmin=2.707100

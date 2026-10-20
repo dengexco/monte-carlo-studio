@@ -10,3 +10,5 @@ Hazır program macOS ARM64 içindir. Diğer sistemlerde Go 1.24+ ile kaynak kodd
 Çalışma zamanı kütüphaneleri assets altında ve hazır programın içinde bulunur. İnternet veya npm kurulumu çalıştırma için gerekmez. Ön yüzü yeniden derlemek için Node.js ve `npm ci`, ardından `npm run build` gerekir. Go derlemesi: `go build -trimpath -o bin/monte-carlo-studio .`
 
 Bu paket AI yardımıyla geliştirilmiş öğrenme uygulamasını içerir. Eski Python raporları ve ders PDF’si dahil değildir. Deney sonuçları uygulamadan CSV/JSON olarak indirilebilir.
+
+20 Ekim 2026 çalışmasının çıktıları: results/2026-10-20. Deney raporu: docs/Monte-Carlo-Report.pdf. Bu dosyalar aynı çalışmadan alınmıştır.

@@ -57,7 +57,7 @@ function render(state) {
         cards.push('<div><small>COMPLETED RUNS</small><strong id="run-count">0</strong><em>Independent replications</em></div>');
         $('metrics').innerHTML=cards.join('');
         const rows=[];
-        for(const [name,groups] of Object.entries(results)) for(const row of groups) row.runs.forEach((value,i)=>rows.push(`<tr><td>${name==='pi'?'π':'e'}</td><td>${row.n.toLocaleString('en-US')}</td><td>${i+1}</td><td>${number(value)}</td><td>${number(row.mean)}</td><td>${number(row.error)}</td><td>${number(row.sd)}</td></tr>`));
+        for(const name of ['pi','e']) for(const row of results[name]||[]) row.runs.forEach((value,i)=>rows.push(`<tr><td>${name==='pi'?'π':'e'}</td><td>${row.n.toLocaleString('en-US')}</td><td>${i+1}</td><td>${number(value)}</td><td>${number(row.mean)}</td><td>${number(row.error)}</td><td>${number(row.sd)}</td></tr>`));
         $('rows').innerHTML=rows.join('');
         $('course-tables').innerHTML=['pi','e'].map(name=>{
             const groups=results[name]||[];
@@ -82,7 +82,7 @@ async function refresh() {
         render(state);
         if(!autoStarted && state.status==='ready') {autoStarted=true; $('settings').requestSubmit();}
     } catch(error) {
-        $('error').textContent='Cannot reach the Python app. Restart odev.py and reopen its URL.';
+        $('error').textContent='Cannot reach the Go application. Restart odev.py or the executable and reopen its URL.';
     } finally { polling=false; }
 }
 
@@ -98,10 +98,5 @@ $('settings').addEventListener('submit', async event=>{
 });
 $('stop').addEventListener('click',async()=>{try{await action('/api/stop');await refresh();}catch(error){$('error').textContent=error.message;}});
 $('new-seed').addEventListener('click',()=>{$('seed').value=crypto.getRandomValues(new Uint32Array(1))[0];});
-for(const button of document.querySelectorAll('[data-view]')) button.addEventListener('click',()=>{
-    for(const tab of document.querySelectorAll('[data-view]')) tab.classList.toggle('active',tab===button);
-    for(const view of document.querySelectorAll('.view')) view.hidden=view.id!==button.dataset.view;
-    if(button.dataset.view==='charts') for(const id of ['plot-pi','plot-e']) if($(id).data) Plotly.Plots.resize(id);
-});
 refresh();
 setInterval(refresh,400);

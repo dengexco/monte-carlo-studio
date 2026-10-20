@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-20",
+  "source": "One run of local Go application at http://127.0.0.1:8765/",
+  "data": "GET /export.json and /export.csv after completion",
+  "charts": "Application Plotly Download plot as a PNG buttons",
+  "settings": {
+    "sizes": [
+      10,
+      100,
+      1000,
+      10000
+    ],
+    "runs": 5,
+    "seed": 20261019,
+    "experiment": "both"
+  },
+  "sha256": {
+    "results.json": "65bd8bddd13a1c6f5e8807845e5943675935e2fefa854f1a052b6185164d2f12",
+    "pi.png": "3af28b964775fac94949277d8c5e9dcb4e9cff073e5e9b044a4730774eed34eb",
+    "run.txt": "e079658a9e1e320109647effd9284ebeec7ceb061efe4d3251343488134d9097",
+    "results.csv": "bfe768a0eccbdd04931765d101791f1b63fc8d3ba6c1e3f04ca67fe0a9ce2c0c",
+    "e.png": "2ae37f22e121e04d289bb3a447ac4fd4f163d451d07242dc0168da1dff04d2a0"
+  }
+}
